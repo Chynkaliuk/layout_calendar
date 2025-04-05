@@ -9,7 +9,6 @@ $animation-duration: 0.5s;
 $hover-offset: 20px;
 
 // Обчислення ширини календаря
-// prettier-ignore
 $calendar-width: ($day-size * $columns) + ($gap-size * ($columns - 1));
 
 body {
@@ -25,10 +24,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: $gap-size;
-  width: $calendar-width; // Фіксована ширина для 7 колонок
+  width: $calendar-width;
   padding: $padding-size;
-  justify-content: flex-start; // Залишаємо flex-start для коректної роботи модифікаторів
+  justify-content: flex-start;
 
+  // За замовчуванням календар починається з неділі (без зміщення)
   &__day {
     box-sizing: border-box;
     width: $day-size;
@@ -44,6 +44,7 @@ body {
       transform: translate(0, -20px);
     }
 
+    // Номери днів з 1 по 31 за замовчуванням
     @for $i from 1 through 31 {
       &:nth-child(#{$i})::before {
         content: '#{$i}';
@@ -57,6 +58,7 @@ body {
     }
   }
 
+  // Залишаємо підтримку модифікаторів для інших днів тижня
   @each $day in (mon, tue, wed, thu, fri, sat, sun) {
     $offset: if(
       $day == 'mon',
@@ -78,6 +80,7 @@ body {
     }
   }
 
+  // Залишаємо підтримку модифікаторів для довжини місяця
   @for $i from 28 through 31 {
     &--month-length-#{$i} {
       .calendar__day:nth-child(n + #{$i + 1}) {
